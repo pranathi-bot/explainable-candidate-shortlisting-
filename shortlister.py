@@ -49,6 +49,36 @@ def bias_check(candidate):
     adjusted_score=((float(candidate['CGPA'])/10)*20+(int(candidate['CodingScore'])/100)*50+min(int(candidate['Projects'])*5,20))
     return round(original_score,2),round(adjusted_score,2)
 
+def show_all_candidates(candidates):
+    for c in candidates:
+        print("\nCandidate:",c['Name'])
+        print("Score:",c['FinalScore'])
+        print("Decision:",c['Decision'])
+        print("Reasons:")
+        for r in c['Explainations']:
+            print("-",r)
+        print("Bias Analysis:",c['BiasCheck'])
+
+
+def show_shortlisted(candidates):
+    found=False
+    for c in candidates:
+        if c['Decision']=="Shortlisted":
+            found=True
+            print("\Candidate:",c['Name'])
+            print("Score:",c['FinalScore'])
+        if not found:
+            print("\nNo Shortlisted Candidates Found")
+
+
+def score_visualization(candidates):
+    print("\nScore Visualization")
+    print("-"*30)
+    for c in candidates:
+        bars=int(c['FinalScore']//2)
+        print(f"{c['Name']}:{''*bars}({c['FinalScore']})")
+
+
 
 
 
@@ -90,13 +120,13 @@ while True:
     print("4.View score visualization")
     choice=input("enter your choice:")
     if choice=='1':
-        show__all__candidates(candidates)
+        show_shortlisted(candidates)
     elif choice=='2':
         show_shortlisted(candidates)
     elif choice=='3':
         print("Existing...")
         break
     elif choice=='4':
-        visualize_scores(candidates)
+        score_visualization(candidates)
     else:
         print("Invalid choice")
